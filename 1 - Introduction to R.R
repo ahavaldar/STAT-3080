@@ -121,8 +121,8 @@ require("car")
 #  typed exactly as it was defined.                                     #
 
 ## Some function examples
-log(2.7)  #this function is the log with base e, sometimes written as ln
-Log(2.7)
+log10(0.05)  #this function is the log with base e, sometimes written as ln
+Log(0.05)
 exp(1)
 sqrt(9)
 factorial(3)
@@ -133,7 +133,8 @@ ceiling(5.7)
 trunc(5.7)
 round(5.7,0)
 round(5.727,2)
-
+sqrt(4)
+ceiling(1.167)
 #  The defined probability distributions each have four functions in R. #
 #  Each distribution has a general function name (ie. norm, binom, t).  #
 #  The letter that precedes the distribution name tells R what          #
@@ -147,20 +148,20 @@ round(5.727,2)
 #  numbers from the distribution.                                       #
 
 ## Determining the probability density function
-dnorm(0)
+dnorm(0.05)
 dbinom(5, size=10, prob=0.3)
-
+dbinom(0.05)
 ## Determining the cumulative probability 
-pnorm(1.96)
+pnorm(0.05)
 pnorm(4.5, mean=2, sd=1.6)
 pt(2.0, df=6)
 punif(0.7)
 punif(5, min=3, max=8)
 pchisq(7, df=3)
 pbinom(5, size=10, prob=0.3)
-
+log(0.05)
 ## Determining the value corresponding to the cumulative probability
-qnorm(0.025)
+qnorm(0.05)
 qnorm(0.7, mean=2, sd=1.6)
 qt(0.95, df=12)
 qunif(0.35, min=3, max=8)
@@ -400,6 +401,8 @@ rep(1:5, 2)
 rep(1:5, c(1,2,3,2,1))
 rep(1:5, c(2,2,2,2,2))
 
+rep(15:18,c(2,2,2,2))
+seq(-3,3,1)
 #  If you want to repeat each element in the provided vector a          #
 #  specific number of times, you can use the each option in place of    #
 #  the times option. In order to use this option, you will need to      #
@@ -456,7 +459,7 @@ class(char_vect)
 
 ## Testing the type of a vector
 is.character(char_vect)
-is.character(log_vect)
+is.numeric(c(1,0))
 is.character(mult_mat)
 
 #  The class of an object can be coerced to change by using the         #
@@ -873,7 +876,7 @@ range(x2)
 sort(x2)
 sort(char_vect)
 rev(x2)
-quantile(x2) # This function has an optional second input to specify which 
+quantile(x2,0) # This function has an optional second input to specify which 
               # quantile you want shown
 summary(x2)
 cumsum(x2)
@@ -906,8 +909,10 @@ apply(mult_mat2, 2, quantile, 0.25)
 #  should be applied, categorizations specifies the category of each    #
 #  corresponding value in the data vector, and function specifies the   #
 #  function to be applied to each resulting group.                      #
-
-tapply(Davis$weight, Davis$sex, mean)
+Vocab <- Vocab
+avg_edu <- tapply(Vocab$education, Vocab$year, mean)
+avg_score <- tapply(Vocab$vocabulary, Vocab$year, mean)
+temp <- cbind(avg_edu, avg_score)
 
 #  The lapply() and sapply() functions are both used for lists. Once    #
 #  the specified function is applied, lapply() returns a list and       #
