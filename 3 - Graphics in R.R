@@ -129,13 +129,14 @@ ggplot(Davis, aes(x=weight, y=repwt, color=sex, shape=sex)) + geom_point()
 #  variable as well.                                                    #
 
 ## Setting varing colors for levels of a continuous variable
-ggplot(Davis, aes(x=weight, y=repwt, color=repht)) + geom_point()
+ggplot(Davis, aes(x=weight, y=repwt, color=repht)) + geom_point(shape=0) + scale_color_continuous(low="gray", high="blue") 
+
 
 #  The value of another continuous variable can be represented by the   #
 #  size of the point.                                                   #
 
 ## Setting size of point for value of a continuous variable
-ggplot(Davis, aes(x=weight, y=repwt, size=repht)) + geom_point()
+ggplot(Davis, aes(x=weight, y=repwt, size=repht)) 
 
 #  Differing groups can also be plotted in separate grids.              #
 
@@ -175,14 +176,14 @@ mpgPlot + facet_grid(cyl~drv, scales="free_y")
 mpgPlot + facet_grid(cyl~drv, scales="free_x")
 
 ## Varying vertical and horizontal axes
-mpgPlot + facet_grid(cyl~drv, scales="free")
+mpgPlot + facet_grid(cyl~drv, scales="free", space = "free")
 
 #  For grouping variables with too many levels to make side-by-side     #
 #  unfeasible, a facet wrap can be used.                                #
 
 ## Using facet wrap to create subplots based on vehicle class
 mpgPlot + facet_wrap(~class)
-mpgPlot + facet_wrap(~class, nrow=2)
+mpgPlot + facet_wrap(~class, nrow=3)
 
 #######################################
 #  Scatterplots with regression line  #
@@ -199,7 +200,7 @@ DavisPlot + geom_point() + geom_smooth()
 #  smoothing line to use a particular method, such as linear regression.#
 
 ## Adding the linear regression line
-DavisPlot + geom_point() + geom_smooth(method=lm)
+DavisPlot + geom_point() + geom_smooth(method=lm, level=0.99)
 
 #  The default color of the smoothing line is blue and can be changed   #
 #  using the color option.                                             #
@@ -261,7 +262,7 @@ ggplot(USPop, aes(x=year, y=population)) +
 #  the data points.                                                     #
 
 ## Adding data points to line plot
-ggplot(USPop, aes(x=year, y=population)) + geom_line() + geom_point()
+ggplot(USPop, aes(x=year, y=population)) + geom_line(arrow=arrow(length=unit(0.2,"in"))) + geom_point()
 
 #  There may be situations when it is useful to plot several line       #
 #  plots that distinguish separate groups together. A muliple line      #
@@ -273,7 +274,9 @@ uspopage[1:16,]
 
 ## Creating a multiple line plot
 ggplot(uspopage, aes(x=Year, y=Thousands, linetype=AgeGroup)) + geom_line()
-ggplot(uspopage, aes(x=Year, y=Thousands, color=AgeGroup)) + geom_line() 
+ggplot(uspopage, aes(x=Year, y=Thousands, color=AgeGroup)) + geom_line() + geom_point()
+
+
 
 ##################### end of section 2 ##################################
 
@@ -439,7 +442,7 @@ bxplot + geom_boxplot(notch=TRUE)
 ## Adding markers for the means
 bxplot + geom_boxplot() + stat_summary(fun="mean", geom="point")
 bxplot + geom_boxplot() + 
-  stat_summary(fun="mean", geom="point", shape=21, size=3)
+  stat_summary(fun="mean", geom="point", shape=4, size=3)
 
 ################
 #  Histograms  #
@@ -518,7 +521,8 @@ dist1 + stat_function(fun=dnorm) +
 ## Plotting a chi-squared curve
 Xdata2 <- data.frame(X=c(0,20))
 dist2 <- ggplot(Xdata2, aes(x=X))
-dist2 + stat_function(fun=dchisq, args=list(df=4))
+dist2 + stat_function(fun=dchisq, args=list(df=4), linetype="dotted")
+
 
 #  An area under a curve can be shaded using the geom_area() function.  #
 #  Within this function, the density of the distribution must be        #
@@ -583,12 +587,12 @@ DavisScatter
 #  One aesthetic option is to suppress the gridlines. Users can         #
 #  suppress either the horizontal lines, vertical lines, or both.       #
 
-DavisScatter + theme(panel.grid.major=element_blank(), 
-                     panel.grid.minor=element_blank())
+DavisScatter + theme(panel.grid.major=element_line("orange"), 
+                     panel.grid.minor=element_line("orange"))
 DavisScatter + theme(panel.grid.major.y=element_blank(), 
                      panel.grid.minor.y=element_blank())
-DavisScatter + theme(panel.grid.major.x=element_blank(), 
-                     panel.grid.minor.x=element_blank())
+DavisScatter + theme(panel.grid.major.y=element_line("orange"), 
+                     panel.grid.minor.x=element_line("orange"))
 
 #  For graphics that will be used in a report or presentation, it is a  #
 #  best practice to have a plot title and axis labels that are easily   #
